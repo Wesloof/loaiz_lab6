@@ -224,7 +224,7 @@ int main()
 	cout << "пересечение графа" << endl;
 	int** G4 = intersectionG(G1, G2, nG1, nG2);
 	int nG4 = (nG1 < nG2) ? nG1 : nG2;
-	printG(G4, nG4);
+	printG(G4, nG4); 
 	cout << "кольцевая сумма" << endl;
 	int** G5 = xorG(G1, G2, nG1, nG2);
 	int nG5  = nG2 - nG1;
