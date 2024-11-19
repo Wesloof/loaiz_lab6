@@ -34,6 +34,71 @@ void printG(int** G, int size)
 	}
 }
 
+int** Decarta(int** G1, int** G2, int v1, int v2)
+{
+	int** Gtemp = createG(v1 * v2);
+	for (int i1 = 0; i1 < v1; i1++)
+	{
+		for (int i2 = 0; i2 < v2; i2++)
+		{
+			for (int j1 = 0; j1 < v1; j1++)
+			{
+				for (int j2 = 0; j2 < v2; j2++)
+				{
+					int index1 = i1 * v2 + i2;
+					int index2 = j1 * v2 + j2;
+
+					if ((i1 == j1 && G2[i2][j2] == 1) || (i2 == j2 && G1[i1][j1] == 1))
+					{
+						Gtemp[index1][index2] = 1;
+					}
+					else
+					{
+						Gtemp[index1][index2] = 0;
+					}
+				}
+			}
+
+		}
+	}
+	return Gtemp;
+}
+
+void adjacencyMatrixToList(int** matrix, int n) {
+	int** adjList = new int* [n];
+	int* Gtemp = new int[n];
+
+	
+	for (int i = 0; i < n; ++i) {
+		Gtemp[i] = 0;
+		for (int j = 0; j < n; ++j) {
+			if (matrix[i][j] == 1) {
+				Gtemp[i]++;
+			}
+		}
+		adjList[i] = new int[Gtemp[i]];
+	}
+
+
+	for (int i = 0; i < n; ++i) {
+		int index = 0;
+		for (int j = 0; j < n; ++j) {
+			if (matrix[i][j] == 1) {
+				adjList[i][index++] = j;
+			}
+		}
+	}
+	
+	cout << "Список смежности:" << endl;
+	for (int i = 0; i < n; ++i) {
+		cout << "Вершина " << i << ": ";
+		for (int j = 0; j < Gtemp[i]; ++j) {
+			cout << adjList[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+
 int** delV(int** G, int size, int v)
 {
 	int **Gtemp = createG(size - 1);
@@ -196,6 +261,7 @@ int main()
 	cin >> nG2;
 	int** G1 = createG(nG1);
 	int** G2 = createG(nG2);
+	adjacencyMatrixToList(G1, nG1);
 	cout << "1 граф" << endl;
 	printG(G1, nG1);
 	cout << "2 граф" << endl;
@@ -229,5 +295,14 @@ int main()
 	int** G5 = xorG(G1, G2, nG1, nG2);
 	int nG5  = nG2 - nG1;
 	printG(G5, nG5);
+
+	cout << "Декартово произведения" << endl;
+	cout << "1 граф" << endl;
+	printG(G1, nG1);
+	cout << "2 граф" << endl;
+	printG(G2, nG2);
+	int** G6 = Decarta(G1, G2, nG1, nG2);
+	int nG6 = nG2 * nG1;
+	printG(G6, nG6);
 }
 
